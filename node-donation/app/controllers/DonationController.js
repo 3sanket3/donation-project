@@ -1,8 +1,9 @@
 const { DonationModalStructure } = require('../models/DonationModal');
 const { usersStaticData } = require('../staticData/usersStaticData');
+const { donationStaticData } = require('../staticData/donationStaticData');
 const { v4: uuidv4 } = require('uuid');
 
-let donationDataList = [];
+let donationDataList = [...donationStaticData];
 
 /**
  *  Get Donation list

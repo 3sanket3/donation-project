@@ -6,7 +6,8 @@ import URLS from '../src/utils/urls';
 
 export const getStaticProps = async () => {
     let donationsData: any = await httpGet(URLS.DONATION.GET_DONATION_LIST);
-    const fomattingDonation =
+    
+    const formattingDonation =
         (donationsData &&
             donationsData.data &&
             donationsData.data.length > 0 &&
@@ -17,12 +18,11 @@ export const getStaticProps = async () => {
                 };
             })) ||
         [];
-    return { props: { donations: fomattingDonation }, revalidate: 1 };
+    return { props: { donations: formattingDonation }, revalidate: 1 };
 };
 
 export default function HomePage(props: any) {
     const { donations }: any = props;
-
     return (
         <div className={styles.container}>
             <Head>

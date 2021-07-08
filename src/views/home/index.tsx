@@ -33,7 +33,7 @@ export default function Home(props: any) {
             key: 'amount',
             render: (amount: string, data: any) => {
                 return (function Actions() {
-                    return <div>Rs.{amount || 0}</div>;
+                    return <div>$ {amount || 0}</div>;
                 })();
             },
         },
