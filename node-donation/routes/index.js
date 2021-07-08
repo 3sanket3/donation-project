@@ -9,9 +9,9 @@ module.exports = (app) => {
      * Donation
      */
     app.get(`/${BASE}/donations`, DonationController.getDonationList);
+    app.post(`/${BASE}/donations`, DonationController.createDonation);
     app.get(`/${BASE}/donations/:id`, DonationController.getDonationById);
     app.put(`/${BASE}/donations/:id`, DonationController.updateDonation);
-    app.post(`/${BASE}/donations`, DonationController.createDonation);
     app.delete(`/${BASE}/donations/:id`, DonationController.deleteDonation);
 
     /**

@@ -1,0 +1,19 @@
+.home {
+    width: 80%;
+    margin: 0px auto;
+}
+
+.header {
+    padding: 15px 10px;
+    border: 1px solid rgb(238, 238, 238);
+    border-radius: 5px;
+    margin: 10px 0px;
+}
+.title {
+    margin: 0px;
+}
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

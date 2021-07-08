@@ -13,8 +13,17 @@ let donationDataList = [];
 exports.getDonationList = async (req, res) => {
     try {
         if (donationDataList && donationDataList.length > 0) {
+            const donationList = donationDataList.map((donation) => {
+                const userDetail = usersStaticData.find(
+                    (data) => data.id === donation.userId
+                );
+                return {
+                    ...donation,
+                    userEmail: userDetail.email,
+                };
+            });
             res.send({
-                data: donationDataList,
+                data: donationList,
                 message: 'Donations founded successfully',
             });
         } else {
