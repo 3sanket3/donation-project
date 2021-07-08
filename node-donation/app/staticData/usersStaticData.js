@@ -1,36 +1,35 @@
-const { UserModalStructure } = require('../models/UserModal');
 const { v4: uuidv4 } = require('uuid');
 
 const usersStaticData = [
     {
-        [UserModalStructure.id]: uuidv4(),
-        [UserModalStructure.firstName]: 'FakeOneFirstName',
-        [UserModalStructure.lastName]: 'FakeOneLastName',
-        [UserModalStructure.email]: 'fakeOne@exmaple.com',
+        id: uuidv4(),
+        firstName: 'FakeOneFirstName',
+        lastName: 'FakeOneLastName',
+        email: 'fakeOne@exmaple.com',
     },
     {
-        [UserModalStructure.id]: uuidv4(),
-        [UserModalStructure.firstName]: 'FakeTwoFirstName',
-        [UserModalStructure.lastName]: 'FakeTwoLastName',
-        [UserModalStructure.email]: 'fakeTwo@exmaple.com',
+        id: uuidv4(),
+        firstName: 'FakeTwoFirstName',
+        lastName: 'FakeTwoLastName',
+        email: 'fakeTwo@exmaple.com',
     },
     {
-        [UserModalStructure.id]: uuidv4(),
-        [UserModalStructure.firstName]: 'FakeThreeFirstName',
-        [UserModalStructure.lastName]: 'FakeThreeLastName',
-        [UserModalStructure.email]: 'fakeThree@exmaple.com',
+        id: uuidv4(),
+        firstName: 'FakeThreeFirstName',
+        lastName: 'FakeThreeLastName',
+        email: 'fakeThree@exmaple.com',
     },
     {
-        [UserModalStructure.id]: uuidv4(),
-        [UserModalStructure.firstName]: 'FakeFourFirstName',
-        [UserModalStructure.lastName]: 'FakeFourLastName',
-        [UserModalStructure.email]: 'fakeFour@exmaple.com',
+        id: uuidv4(),
+        firstName: 'FakeFourFirstName',
+        lastName: 'FakeFourLastName',
+        email: 'fakeFour@exmaple.com',
     },
     {
-        [UserModalStructure.id]: uuidv4(),
-        [UserModalStructure.firstName]: 'FakeFiveFirstName',
-        [UserModalStructure.lastName]: 'FakeFiveLastName',
-        [UserModalStructure.email]: 'fakeFive@exmaple.com',
+        id: uuidv4(),
+        firstName: 'FakeFiveFirstName',
+        lastName: 'FakeFiveLastName',
+        email: 'fakeFive@exmaple.com',
     },
 ];
 
