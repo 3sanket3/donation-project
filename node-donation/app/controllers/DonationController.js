@@ -1,4 +1,4 @@
-const { DonationModalStructure } = require('../models/DonationModal');
+const { DonationModalStructure } = require('../modals/DonationModal');
 const { usersStaticData } = require('../staticData/usersStaticData');
 const { donationStaticData } = require('../staticData/donationStaticData');
 const { v4: uuidv4 } = require('uuid');
@@ -123,6 +123,10 @@ exports.updateDonation = async (req, res) => {
         donation.userId = bodyData?.userId || '';
         donation.amount = bodyData?.amount || '';
         donation.tip = bodyData?.tip || '';
+        const index = donationDataList.findIndex(
+            (donationData) => donationData?.id === paramId
+        );
+        donationDataList[index] = donation;
         res.send({
             data: donation,
             message: 'Donation updated successfully',

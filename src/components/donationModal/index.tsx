@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Row, Col, Select } from 'antd';
+import { Modal, Form, Row, Col, Select, Input, Button } from 'antd';
 import { MODE } from '../../constants/modes';
 import URLS from '../../utils/urls';
 import { httpGet } from '../../utils/https';
@@ -7,9 +7,21 @@ import { httpGet } from '../../utils/https';
 const Option = Select;
 
 function DonationModal(props: any) {
-    const { isModalVisible, closeModal }: any = props;
+    const {
+        isModalVisible,
+        closeModal,
+        modeType,
+        form,
+        addDonation,
+        isAdding,
+        updateDonation,
+        isUpdating,
+    }: any = props;
     const [userList, setUserList] = useState<[]>([]);
     const [isUserFetching, setIsUserFetching] = useState<boolean>(false);
+    const [validateFieldsName, setValidateFieldsName] = useState<string[]>([]);
+    const isDisabled = isAdding || isUpdating;
+    const isViewMode = modeType === MODE.VIEW;
 
     useEffect(() => {
         setIsUserFetching(true);
@@ -23,13 +35,72 @@ function DonationModal(props: any) {
             });
     }, []);
 
+    const handleValidateFieldNames = (name: string) => {
+        const isFieldName = validateFieldsName.find(
+            (fieldName) => fieldName === name
+        );
+        if (isFieldName) return 'onChange';
+        return 'onBlur';
+    };
+
+    const cancelButton = (
+        <Button key="cancel" disabled={isDisabled} onClick={closeModal}>
+            Cancel
+        </Button>
+    );
+
+    let modalTitle = 'Add Donation';
+    let modalfooterButtons = [
+        cancelButton,
+        <Button
+            key="add"
+            disabled={isDisabled}
+            type="primary"
+            onClick={addDonation}
+        >
+            {isAdding ? 'Save...' : 'Save'}
+        </Button>,
+    ];
+
+    if (modeType === MODE.EDIT) {
+        modalTitle = 'Edit Donation';
+        modalfooterButtons = [
+            cancelButton,
+            <Button
+                key="add"
+                disabled={isDisabled}
+                type="primary"
+                onClick={updateDonation}
+            >
+                {isUpdating ? 'Save...' : 'Save'}
+            </Button>,
+        ];
+    }
+    if (modeType === MODE.VIEW) {
+        modalTitle = 'View Donation';
+        modalfooterButtons = [
+            <Button key="close" disabled={isDisabled} onClick={closeModal}>
+                Close
+            </Button>,
+        ];
+    }
     return (
-        <Modal visible={isModalVisible} onCancel={closeModal}>
-            <Form layout="vertical">
+        <Modal
+            title={modalTitle}
+            visible={isModalVisible}
+            footer={modalfooterButtons}
+            onCancel={() => !isDisabled && closeModal()}
+            maskClosable={false}
+            forceRender={true}
+        >
+            <Form form={form} layout="vertical">
                 <Row gutter={16}>
-                    <Col className="gutter-row" xs={24} sm={12} md={8}>
+                    <Form.Item name="id" hidden={true}>
+                        <Input type="text" />
+                    </Form.Item>
+                    <Col className="gutter-row" xs={24} sm={12} md={12}>
                         <Form.Item
-                            name="type"
+                            name="userId"
                             label="Select User"
                             rules={[
                                 {
@@ -40,10 +111,7 @@ function DonationModal(props: any) {
                         >
                             <Select
                                 placeholder="Select User"
-                                // onChange={(typeName: string) =>
-                                //     setSelectedExpenseType(typeName)
-                                // }
-                                // disabled={isDisabled}
+                                disabled={isViewMode}
                             >
                                 {!isUserFetching &&
                                     userList &&
@@ -57,6 +125,50 @@ function DonationModal(props: any) {
                                         );
                                     })}
                             </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col className="gutter-row" xs={24} sm={12} md={12}>
+                        <Form.Item
+                            name="amount"
+                            label="Amount"
+                            validateTrigger={handleValidateFieldNames('amount')}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please enter amount!',
+                                },
+                                {
+                                    validator(_, value) {
+                                        if (value && value <= 0) {
+                                            return Promise.reject(
+                                                'Please enter valid amount'
+                                            );
+                                        }
+                                        return Promise.resolve();
+                                    },
+                                },
+                            ]}
+                        >
+                            <Input
+                                disabled={isViewMode}
+                                type="number"
+                                placeholder="Amount"
+                                onBlur={() =>
+                                    setValidateFieldsName([
+                                        ...validateFieldsName,
+                                        'amount',
+                                    ])
+                                }
+                            />
+                        </Form.Item>{' '}
+                    </Col>
+                    <Col className="gutter-row" xs={24} sm={12} md={24}>
+                        <Form.Item name="tip" label="Tip">
+                            <Input.TextArea
+                                disabled={isViewMode}
+                                rows={4}
+                                placeholder="Please enter tip, if any"
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
